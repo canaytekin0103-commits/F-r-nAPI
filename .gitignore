@@ -5,3 +5,7 @@ obj/
 *.user
 *.suo
 .env
+frontend/node_modules/
+frontend/dist/
+tests/**/bin/
+tests/**/obj/
