@@ -1,0 +1,65 @@
+@FirinApi_HostAddress = http://localhost:5220
+@token = {{login.response.body.token}}
+
+### Health check (API + MySQL durumu)
+GET {{FirinApi_HostAddress}}/health
+
+### 1) Giriş yap → token al
+# @name login
+POST {{FirinApi_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "Admin123!"
+}
+
+### 2) Menü (herkese açık)
+GET {{FirinApi_HostAddress}}/api/breads
+
+### 3) Ekmek ekle (token gerekli)
+POST {{FirinApi_HostAddress}}/api/breads
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Simit",
+  "price": 15,
+  "stockQuantity": 100
+}
+
+### 4) Müşteri ekle (token gerekli)
+POST {{FirinApi_HostAddress}}/api/customers
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "fullName": "Ali Yılmaz",
+  "email": "ali@example.com",
+  "phone": "05551234567"
+}
+
+### 5) Sipariş oluştur (token gerekli)
+POST {{FirinApi_HostAddress}}/api/orders
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "customerId": 1,
+  "items": [
+    { "productType": 1, "productId": 1, "quantity": 2 }
+  ]
+}
+
+### 6) Sipariş iptal et → stok geri iade edilir
+POST {{FirinApi_HostAddress}}/api/orders/1/cancel
+Authorization: Bearer {{token}}
+
+### Alternatif: durumu "İptal" (3) yaparak da iptal edebilirsiniz
+PATCH {{FirinApi_HostAddress}}/api/orders/1/status
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": 3
+}
