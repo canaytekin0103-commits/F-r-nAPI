@@ -1,18 +1,16 @@
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: firin-mysql
+  postgres:
+    image: postgres:16
+    container_name: firin-postgres
     restart: unless-stopped
     ports:
-      - "3306:3306"
+      - "5434:5432"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: firin_db
-      MYSQL_USER: firin_user
-      MYSQL_PASSWORD: firin123
+      POSTGRES_DB: firin_db
+      POSTGRES_USER: firin_user
+      POSTGRES_PASSWORD: firin123
     volumes:
-      - firin_mysql_data:/var/lib/mysql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      - firin_postgres_data:/var/lib/postgresql/data
 
 volumes:
-  firin_mysql_data:
+  firin_postgres_data:

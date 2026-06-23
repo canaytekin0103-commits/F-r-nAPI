@@ -40,4 +40,40 @@ public class OrderRepository(AppDbContext context) : Repository<Order>(context),
             .Include(o => o.Customer)
             .Include(o => o.Items)
             .FirstOrDefaultAsync(o => o.Id == id, cancellationToken);
+
+    public async Task<IReadOnlyList<Order>> GetDeliveriesByDateAsync(DateOnly date, CancellationToken cancellationToken = default)
+        => await Context.Orders
+            .AsNoTracking()
+            .Include(o => o.Customer)
+            .Include(o => o.Items)
+            .Where(o => o.DeliveryDate == date && o.Status == Models.Enums.OrderStatus.Completed)
+            .OrderBy(o => o.Customer.FullName)
+            .ToListAsync(cancellationToken);
+
+    public async Task<bool> HasDeliveryForCustomerOnDateAsync(int customerId, DateOnly date, CancellationToken cancellationToken = default)
+        => await Context.Orders.AnyAsync(
+            o => o.CustomerId == customerId
+                 && o.DeliveryDate == date
+                 && o.Status == Models.Enums.OrderStatus.Completed,
+            cancellationToken);
+}
+
+public class StandingOrderRepository(AppDbContext context) : Repository<CustomerStandingOrder>(context), IStandingOrderRepository
+{
+    public async Task<IReadOnlyList<CustomerStandingOrder>> GetByCustomerIdAsync(int customerId, CancellationToken cancellationToken = default)
+        => await Context.CustomerStandingOrders
+            .AsNoTracking()
+            .Include(s => s.Bread)
+            .Where(s => s.CustomerId == customerId)
+            .OrderBy(s => s.Bread.Name)
+            .ToListAsync(cancellationToken);
+
+    public async Task<IReadOnlyList<Customer>> GetCustomersWithStandingOrdersAsync(CancellationToken cancellationToken = default)
+        => await Context.Customers
+            .AsNoTracking()
+            .Include(c => c.StandingOrders)
+                .ThenInclude(s => s.Bread)
+            .Where(c => c.StandingOrders.Any())
+            .OrderBy(c => c.FullName)
+            .ToListAsync(cancellationToken);
 }

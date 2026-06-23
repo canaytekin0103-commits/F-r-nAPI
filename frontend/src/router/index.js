@@ -11,7 +11,8 @@ const router = createRouter({
       component: () => import('../views/admin/AdminLayout.vue'),
       meta: { requiresAuth: true },
       children: [
-        { path: '', redirect: '/admin/orders' },
+        { path: '', redirect: '/admin/deliveries' },
+        { path: 'deliveries', name: 'deliveries', component: () => import('../views/admin/DailyDeliveriesView.vue') },
         { path: 'orders', name: 'orders', component: () => import('../views/admin/OrdersView.vue') },
         { path: 'orders/new', name: 'new-order', component: () => import('../views/admin/NewOrderView.vue') },
         { path: 'customers', name: 'customers', component: () => import('../views/admin/CustomersView.vue') },
@@ -22,7 +23,8 @@ const router = createRouter({
 
 router.beforeEach((to) => {
   const auth = useAuthStore()
-  if (to.meta.requiresAuth && !auth.isLoggedIn) {
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
+  if (requiresAuth && !auth.isLoggedIn) {
     return { name: 'login', query: { redirect: to.fullPath } }
   }
 })

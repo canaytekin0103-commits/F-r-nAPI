@@ -7,11 +7,11 @@ const auth = useAuthStore()
 
 <template>
   <header class="navbar">
-    <RouterLink to="/" class="brand">🥖 Fırın API</RouterLink>
+    <RouterLink to="/" class="brand">🥖 Fırın Yönetim</RouterLink>
     <nav class="nav-links">
-      <RouterLink to="/">Menü</RouterLink>
+      <RouterLink to="/">Paketler</RouterLink>
       <template v-if="auth.isLoggedIn">
-        <RouterLink to="/admin/orders">Yönetim</RouterLink>
+        <RouterLink to="/admin/deliveries">Yönetim</RouterLink>
         <button class="btn-text" @click="auth.logout(); $router.push('/')">
           Çıkış ({{ auth.username }})
         </button>

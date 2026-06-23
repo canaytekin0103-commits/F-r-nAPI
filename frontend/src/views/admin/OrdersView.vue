@@ -68,10 +68,10 @@ onMounted(loadOrders)
           <tr v-for="order in orders" :key="order.id">
             <td>{{ order.id }}</td>
             <td>{{ order.customerName }}</td>
-            <td>{{ formatDate(order.orderDate) }}</td>
+            <td>{{ formatDate(order.deliveryDate || order.orderDate) }}</td>
             <td>
               <span class="badge" :class="'status-' + order.status">
-                {{ orderStatusLabel[order.status] }}
+                {{ order.status === 2 ? 'Verildi' : orderStatusLabel[order.status] }}
               </span>
             </td>
             <td>{{ formatPrice(order.totalAmount) }}</td>

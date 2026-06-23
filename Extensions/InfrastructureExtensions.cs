@@ -34,9 +34,9 @@ public static class InfrastructureExtensions
     {
         services.AddHealthChecks()
             .AddDbContextCheck<AppDbContext>(
-                name: "mysql",
+                name: "postgresql",
                 failureStatus: HealthStatus.Unhealthy,
-                tags: ["db", "mysql"]);
+                tags: ["db", "postgresql"]);
 
         return services;
     }

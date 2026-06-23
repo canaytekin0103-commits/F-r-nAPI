@@ -14,21 +14,22 @@ public static class ServiceCollectionExtensions
         var connectionString = configuration.GetConnectionString("DefaultConnection")
             ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-        var serverVersion = new MySqlServerVersion(new Version(8, 0, 36));
-
         services.AddDbContext<AppDbContext>(options =>
-            options.UseMySql(connectionString, serverVersion));
+            options.UseNpgsql(connectionString));
 
         services.AddScoped<IBreadRepository, BreadRepository>();
         services.AddScoped<ICakeRepository, CakeRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IStandingOrderRepository, StandingOrderRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IBreadService, BreadService>();
         services.AddScoped<ICakeService, CakeService>();
         services.AddScoped<ICustomerService, CustomerService>();
         services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IStandingOrderService, StandingOrderService>();
+        services.AddScoped<IDeliveryService, DeliveryService>();
         services.AddScoped<IAuthService, AuthService>();
 
         return services;

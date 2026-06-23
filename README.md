@@ -5,7 +5,7 @@
 ## Özellikler
 
 - Ekmek, pasta, müşteri ve sipariş yönetimi
-- MySQL (Docker) + EF Core migrations
+- PostgreSQL (Docker) + EF Core migrations
 - FluentValidation, JWT Auth, CORS, Health check
 - Sayfalama: `GET /api/breads?page=1&size=10`
 - Vue 3 admin paneli ve herkese açık menü
@@ -22,7 +22,9 @@
 
 ## Hızlı başlangıç
 
-### 1. MySQL (Docker)
+### 1. PostgreSQL (Docker)
+
+> **Not:** Bilgisayarınızda zaten PostgreSQL çalışıyorsa Docker portu `5434` kullanılır (5432/5433 dolu olabilir).
 
 ```powershell
 cd "C:\Users\ferdi\Fırın Api"
@@ -32,7 +34,7 @@ docker compose up -d
 ### 2. Gizli ayarlar (User Secrets — sadece ilk kurulumda)
 
 ```powershell
-dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=localhost;Port=3306;Database=firin_db;User=firin_user;Password=firin123;AllowPublicKeyRetrieval=true;"
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Host=localhost;Port=5434;Database=firin_db;Username=firin_user;Password=firin123"
 dotnet user-secrets set "Jwt:Key" "FirinApiSuperSecretKeyForDevelopment_Min32Chars!"
 dotnet user-secrets set "Seed:AdminPassword" "Admin123!"
 ```
@@ -101,7 +103,7 @@ Yanıt örneği:
 Şifreleri **asla** `appsettings.json`'a yazmayın. Ortam değişkeni kullanın:
 
 ```bash
-ConnectionStrings__DefaultConnection=Server=...;Database=firin_db;...
+ConnectionStrings__DefaultConnection=Host=...;Port=5434;Database=firin_db;Username=...;Password=...
 Jwt__Key=uzun-ve-gizli-anahtar-en-az-32-karakter
 Seed__AdminPassword=guclu-sifre
 ```

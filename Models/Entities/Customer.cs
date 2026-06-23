@@ -7,4 +7,5 @@ public class Customer : BaseEntity
     public string? Phone { get; set; }
 
     public ICollection<Order> Orders { get; set; } = [];
+    public ICollection<CustomerStandingOrder> StandingOrders { get; set; } = [];
 }

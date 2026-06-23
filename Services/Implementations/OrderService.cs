@@ -45,10 +45,14 @@ public class OrderService(
         var customer = await customerRepository.GetByIdAsync(dto.CustomerId, cancellationToken)
             ?? throw new InvalidOperationException("Müşteri bulunamadı.");
 
+        var deliveryDate = dto.DeliveryDate ?? DateOnly.FromDateTime(DateTime.UtcNow);
+
         var order = new Order
         {
             CustomerId = customer.Id,
-            Status = OrderStatus.Pending // Yeni sipariş "Beklemede" başlar
+            DeliveryDate = deliveryDate,
+            OrderDate = deliveryDate.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc),
+            Status = dto.MarkAsDelivered ? OrderStatus.Completed : OrderStatus.Pending
         };
 
         // Her sipariş kalemi için ürünü bul, fiyatı al ve ekmekse stoktan düş
@@ -209,6 +213,7 @@ public class OrderService(
             order.CustomerId,
             order.Customer.FullName,
             order.OrderDate,
+            order.DeliveryDate,
             order.Status,
             order.TotalAmount,
             items,

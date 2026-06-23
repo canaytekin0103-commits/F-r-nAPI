@@ -28,14 +28,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     await db.Database.MigrateAsync();
 
-    if (!await db.Breads.AnyAsync())
-    {
-        db.Breads.AddRange(
-            new Bread { Name = "Tam Buğday", Price = 35m, StockQuantity = 50 },
-            new Bread { Name = "Beyaz Ekmek", Price = 25m, StockQuantity = 80 },
-            new Bread { Name = "Çavdar", Price = 40m, StockQuantity = 30 });
-        await db.SaveChangesAsync();
-    }
+    await BakerySeedData.EnsureProductsAsync(db);
 
     if (!await db.Users.AnyAsync())
     {

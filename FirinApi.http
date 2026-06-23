@@ -1,7 +1,7 @@
 @FirinApi_HostAddress = http://localhost:5220
 @token = {{login.response.body.token}}
 
-### Health check (API + MySQL durumu)
+### Health check (API + PostgreSQL durumu)
 GET {{FirinApi_HostAddress}}/health
 
 ### 1) Giriş yap → token al

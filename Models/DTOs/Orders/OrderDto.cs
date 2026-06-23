@@ -15,6 +15,7 @@ public record OrderDto(
     int CustomerId,
     string CustomerName,
     DateTime OrderDate,
+    DateOnly DeliveryDate,
     OrderStatus Status,
     decimal TotalAmount,
     IReadOnlyList<OrderItemDto> Items,
@@ -22,6 +23,10 @@ public record OrderDto(
 
 public record CreateOrderItemDto(ProductType ProductType, int ProductId, int Quantity);
 
-public record CreateOrderDto(int CustomerId, IReadOnlyList<CreateOrderItemDto> Items);
+public record CreateOrderDto(
+    int CustomerId,
+    IReadOnlyList<CreateOrderItemDto> Items,
+    bool MarkAsDelivered = false,
+    DateOnly? DeliveryDate = null);
 
 public record UpdateOrderStatusDto(OrderStatus Status);

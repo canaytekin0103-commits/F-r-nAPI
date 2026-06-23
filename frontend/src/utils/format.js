@@ -1,7 +1,7 @@
 export const orderStatusLabel = {
   0: 'Beklemede',
   1: 'Onaylandı',
-  2: 'Tamamlandı',
+  2: 'Verildi',
   3: 'İptal',
 }
 

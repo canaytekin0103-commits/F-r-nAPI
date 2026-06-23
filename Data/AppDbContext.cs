@@ -8,6 +8,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Bread> Breads => Set<Bread>();
     public DbSet<Cake> Cakes => Set<Cake>();
     public DbSet<Customer> Customers => Set<Customer>();
+    public DbSet<CustomerStandingOrder> CustomerStandingOrders => Set<CustomerStandingOrder>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
     public DbSet<User> Users => Set<User>();

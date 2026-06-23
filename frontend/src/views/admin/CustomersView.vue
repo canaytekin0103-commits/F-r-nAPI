@@ -41,6 +41,10 @@ onMounted(load)
 <template>
   <div>
     <h1>Müşteriler</h1>
+    <p class="muted intro">
+      Müşteri ekleyin. Düzenli günlük sipariş tanımı için
+      <strong>Günlük Teslimat</strong> sayfasını kullanın.
+    </p>
 
     <AlertMessage v-if="error" type="error" :message="error" />
     <AlertMessage v-if="success" type="success" :message="success" />
@@ -85,3 +89,9 @@ onMounted(load)
     </div>
   </div>
 </template>
+
+<style scoped>
+.intro {
+  margin-bottom: 1rem;
+}
+</style>

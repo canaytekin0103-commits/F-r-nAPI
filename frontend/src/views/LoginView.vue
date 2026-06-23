@@ -18,7 +18,7 @@ async function handleLogin() {
   loading.value = true
   try {
     await auth.login(username.value, password.value)
-    const redirect = route.query.redirect || '/admin/orders'
+    const redirect = route.query.redirect || '/admin/deliveries'
     router.push(redirect)
   } catch (e) {
     error.value = e.message
